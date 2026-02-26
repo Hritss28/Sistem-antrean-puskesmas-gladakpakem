@@ -140,17 +140,21 @@ export default function KioskPage() {
     return (
         <>
             <Head title="Kiosk - Ambil Nomor Antrean" />
-            <div className="min-h-screen bg-white flex flex-col items-center justify-center p-4 md:p-8 select-none overflow-hidden relative">
-                {/* Subtle animated background */}
-                <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                    <div className="absolute -top-40 -right-40 w-96 h-96 bg-teal-100/50 rounded-full blur-3xl animate-pulse" />
-                    <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-emerald-100/50 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+            <div className="min-h-screen bg-white flex flex-col select-none overflow-hidden relative">
+                {/* Hero Banner */}
+                <div className="relative w-full overflow-hidden">
+                    <img
+                        src="/images/puskesmas-hero.png"
+                        alt="Puskesmas Gladak Pakem"
+                        className="w-full h-auto block"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/20 to-white" />
                 </div>
 
-                {/* Header */}
-                <div className="text-center mb-8 relative z-10">
-                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-teal-500 to-emerald-600 shadow-lg shadow-teal-500/30 mb-4">
-                        <Hospital className="w-8 h-8 text-white" />
+                {/* Logo + Header */}
+                <div className="text-center -mt-14 relative z-10 px-4">
+                    <div className="w-24 h-24 mx-auto mb-3 rounded-full bg-white shadow-xl shadow-gray-200/50 border-4 border-white flex items-center justify-center overflow-hidden">
+                        <img src="/images/logo-puskesmas.png" alt="Logo" className="w-16 h-16" />
                     </div>
                     <h1 className="text-3xl md:text-4xl font-bold text-slate-800 tracking-tight">SELAMAT DATANG</h1>
                     <p className="text-lg text-teal-600 mt-1 font-medium">di {puskesmasName}</p>
@@ -166,223 +170,224 @@ export default function KioskPage() {
                 </div>
 
                 {/* Content */}
-                <div className="w-full max-w-2xl relative z-10">
-                    {/* Step Progress */}
-                    {step !== 'ticket' && (
-                        <div className="flex items-center justify-center gap-2 mb-6">
-                            {['category', 'payment', 'polyclinic'].map((s, i) => (
-                                <div key={s} className="flex items-center gap-2">
-                                    <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-300 ${
-                                        getStepIndex(step) >= i
+                <div className="flex-1 flex flex-col items-center px-4 md:px-8 mt-6">
+                    <div className="w-full max-w-2xl relative z-10">
+                        {/* Step Progress */}
+                        {step !== 'ticket' && (
+                            <div className="flex items-center justify-center gap-2 mb-6">
+                                {['category', 'payment', 'polyclinic'].map((s, i) => (
+                                    <div key={s} className="flex items-center gap-2">
+                                        <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-300 ${getStepIndex(step) >= i
                                             ? 'bg-teal-500 text-white shadow-lg shadow-teal-500/40'
                                             : 'bg-slate-200 text-slate-400'
-                                    }`}>{i + 1}</div>
-                                    {i < 2 && <div className={`w-8 h-0.5 transition-all duration-300 ${getStepIndex(step) > i ? 'bg-teal-500' : 'bg-slate-200'}`} />}
-                                </div>
-                            ))}
-                        </div>
-                    )}
-
-                    {/* STEP: Category Selection */}
-                    {step === 'category' && (
-                        <div className="animate-fadeIn">
-                            <StepTitle title="Pilih Kategori Pasien" />
-                            <div className="grid grid-cols-2 gap-4 mt-5">
-                                <GlassButton
-                                    onClick={() => handleCategorySelect('prioritas')}
-                                    gradient="from-amber-50 to-orange-50"
-                                    border="border-amber-200"
-                                    hoverGlow="hover:shadow-amber-200/60"
-                                >
-                                    <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center shadow-lg shadow-amber-500/30">
-                                        <Star className="w-7 h-7 text-white" />
+                                            }`}>{i + 1}</div>
+                                        {i < 2 && <div className={`w-8 h-0.5 transition-all duration-300 ${getStepIndex(step) > i ? 'bg-teal-500' : 'bg-slate-200'}`} />}
                                     </div>
-                                    <span className="text-xl font-bold text-slate-800 mt-2">PRIORITAS</span>
-                                    <span className="text-sm text-slate-500">Lansia • Ibu Hamil</span>
-                                    <span className="text-sm text-slate-500">Disabilitas • Balita</span>
-                                </GlassButton>
-                                <GlassButton
-                                    onClick={() => handleCategorySelect('umum')}
-                                    gradient="from-blue-50 to-indigo-50"
-                                    border="border-blue-200"
-                                    hoverGlow="hover:shadow-blue-200/60"
-                                >
-                                    <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center shadow-lg shadow-blue-500/30">
-                                        <Users className="w-7 h-7 text-white" />
-                                    </div>
-                                    <span className="text-xl font-bold text-slate-800 mt-2">UMUM</span>
-                                    <span className="text-sm text-slate-500">Pasien Biasa</span>
-                                </GlassButton>
+                                ))}
                             </div>
-                        </div>
-                    )}
+                        )}
 
-                    {/* STEP: Priority Reason */}
-                    {step === 'priority_reason' && (
-                        <div className="animate-fadeIn">
-                            <StepTitle title="Pilih Alasan Prioritas" />
-                            <div className="grid grid-cols-2 gap-3 mt-5">
-                                {priorityReasons.map((reason) => (
+                        {/* STEP: Category Selection */}
+                        {step === 'category' && (
+                            <div className="animate-fadeIn">
+                                <StepTitle title="Pilih Kategori Pasien" />
+                                <div className="grid grid-cols-2 gap-4 mt-5">
                                     <GlassButton
-                                        key={reason.id}
-                                        onClick={() => handlePriorityReasonSelect(reason.id)}
+                                        onClick={() => handleCategorySelect('prioritas')}
                                         gradient="from-amber-50 to-orange-50"
                                         border="border-amber-200"
                                         hoverGlow="hover:shadow-amber-200/60"
-                                        className="py-5"
                                     >
-                                        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center shadow-md">
-                                            {reason.icon}
+                                        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center shadow-lg shadow-amber-500/30">
+                                            <Star className="w-7 h-7 text-white" />
                                         </div>
-                                        <span className="text-sm font-bold text-slate-800 mt-2">{reason.label}</span>
-                                        <span className="text-xs text-slate-400">{reason.sublabel}</span>
+                                        <span className="text-xl font-bold text-slate-800 mt-2">PRIORITAS</span>
+                                        <span className="text-sm text-slate-500">Lansia • Ibu Hamil</span>
+                                        <span className="text-sm text-slate-500">Disabilitas • Balita</span>
                                     </GlassButton>
-                                ))}
+                                    <GlassButton
+                                        onClick={() => handleCategorySelect('umum')}
+                                        gradient="from-blue-50 to-indigo-50"
+                                        border="border-blue-200"
+                                        hoverGlow="hover:shadow-blue-200/60"
+                                    >
+                                        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center shadow-lg shadow-blue-500/30">
+                                            <Users className="w-7 h-7 text-white" />
+                                        </div>
+                                        <span className="text-xl font-bold text-slate-800 mt-2">UMUM</span>
+                                        <span className="text-sm text-slate-500">Pasien Biasa</span>
+                                    </GlassButton>
+                                </div>
                             </div>
-                            <BackButton onClick={() => { setStep('category'); setCategory(''); }} />
-                        </div>
-                    )}
+                        )}
 
-                    {/* STEP: Payment Type */}
-                    {step === 'payment' && (
-                        <div className="animate-fadeIn">
-                            <StepTitle title="Pilih Jenis Pembayaran" />
-                            <div className="grid grid-cols-2 gap-4 mt-5">
-                                <GlassButton
-                                    onClick={() => handlePaymentSelect('bpjs')}
-                                    gradient="from-emerald-50 to-green-50"
-                                    border="border-emerald-200"
-                                    hoverGlow="hover:shadow-emerald-200/60"
-                                >
-                                    <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-400 to-green-500 flex items-center justify-center shadow-lg shadow-emerald-500/30">
-                                        <Shield className="w-7 h-7 text-white" />
-                                    </div>
-                                    <span className="text-xl font-bold text-slate-800 mt-2">BPJS</span>
-                                    <span className="text-sm text-slate-500">Peserta JKN</span>
-                                </GlassButton>
-                                <GlassButton
-                                    onClick={() => handlePaymentSelect('umum')}
-                                    gradient="from-sky-50 to-cyan-50"
-                                    border="border-sky-200"
-                                    hoverGlow="hover:shadow-sky-200/60"
-                                >
-                                    <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-sky-400 to-cyan-500 flex items-center justify-center shadow-lg shadow-sky-500/30">
-                                        <CreditCard className="w-7 h-7 text-white" />
-                                    </div>
-                                    <span className="text-xl font-bold text-slate-800 mt-2">UMUM</span>
-                                    <span className="text-sm text-slate-500">Bayar Sendiri</span>
-                                </GlassButton>
+                        {/* STEP: Priority Reason */}
+                        {step === 'priority_reason' && (
+                            <div className="animate-fadeIn">
+                                <StepTitle title="Pilih Alasan Prioritas" />
+                                <div className="grid grid-cols-2 gap-3 mt-5">
+                                    {priorityReasons.map((reason) => (
+                                        <GlassButton
+                                            key={reason.id}
+                                            onClick={() => handlePriorityReasonSelect(reason.id)}
+                                            gradient="from-amber-50 to-orange-50"
+                                            border="border-amber-200"
+                                            hoverGlow="hover:shadow-amber-200/60"
+                                            className="py-5"
+                                        >
+                                            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center shadow-md">
+                                                {reason.icon}
+                                            </div>
+                                            <span className="text-sm font-bold text-slate-800 mt-2">{reason.label}</span>
+                                            <span className="text-xs text-slate-400">{reason.sublabel}</span>
+                                        </GlassButton>
+                                    ))}
+                                </div>
+                                <BackButton onClick={() => { setStep('category'); setCategory(''); }} />
                             </div>
-                            <BackButton onClick={() => setStep(category === 'prioritas' ? 'priority_reason' : 'category')} />
-                        </div>
-                    )}
+                        )}
 
-                    {/* STEP: Polyclinic Selection */}
-                    {step === 'polyclinic' && (
-                        <div className="animate-fadeIn">
-                            <StepTitle title="Pilih Poli Tujuan" />
-                            <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mt-5">
-                                {polyclinics.map((poly) => (
-                                    <button
-                                        key={poly.id}
-                                        onClick={() => setSelectedPoly(poly.id)}
-                                        disabled={poly.remaining === 0}
-                                        className={`group rounded-2xl p-4 text-center flex flex-col items-center gap-2 transition-all duration-300 border ${
-                                            selectedPoly === poly.id
+                        {/* STEP: Payment Type */}
+                        {step === 'payment' && (
+                            <div className="animate-fadeIn">
+                                <StepTitle title="Pilih Jenis Pembayaran" />
+                                <div className="grid grid-cols-2 gap-4 mt-5">
+                                    <GlassButton
+                                        onClick={() => handlePaymentSelect('bpjs')}
+                                        gradient="from-emerald-50 to-green-50"
+                                        border="border-emerald-200"
+                                        hoverGlow="hover:shadow-emerald-200/60"
+                                    >
+                                        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-400 to-green-500 flex items-center justify-center shadow-lg shadow-emerald-500/30">
+                                            <Shield className="w-7 h-7 text-white" />
+                                        </div>
+                                        <span className="text-xl font-bold text-slate-800 mt-2">BPJS</span>
+                                        <span className="text-sm text-slate-500">Peserta JKN</span>
+                                    </GlassButton>
+                                    <GlassButton
+                                        onClick={() => handlePaymentSelect('umum')}
+                                        gradient="from-sky-50 to-cyan-50"
+                                        border="border-sky-200"
+                                        hoverGlow="hover:shadow-sky-200/60"
+                                    >
+                                        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-sky-400 to-cyan-500 flex items-center justify-center shadow-lg shadow-sky-500/30">
+                                            <CreditCard className="w-7 h-7 text-white" />
+                                        </div>
+                                        <span className="text-xl font-bold text-slate-800 mt-2">UMUM</span>
+                                        <span className="text-sm text-slate-500">Bayar Sendiri</span>
+                                    </GlassButton>
+                                </div>
+                                <BackButton onClick={() => setStep(category === 'prioritas' ? 'priority_reason' : 'category')} />
+                            </div>
+                        )}
+
+                        {/* STEP: Polyclinic Selection */}
+                        {step === 'polyclinic' && (
+                            <div className="animate-fadeIn">
+                                <StepTitle title="Pilih Poli Tujuan" />
+                                <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mt-5">
+                                    {polyclinics.map((poly) => (
+                                        <button
+                                            key={poly.id}
+                                            onClick={() => setSelectedPoly(poly.id)}
+                                            disabled={poly.remaining === 0}
+                                            className={`group rounded-2xl p-4 text-center flex flex-col items-center gap-2 transition-all duration-300 border ${selectedPoly === poly.id
                                                 ? 'bg-teal-50 border-teal-400 ring-2 ring-teal-400/50 scale-[1.03] shadow-xl shadow-teal-500/20'
                                                 : poly.remaining === 0
-                                                ? 'bg-slate-50 border-slate-100 opacity-40 cursor-not-allowed'
-                                                : 'bg-white border-slate-200 hover:bg-slate-50 hover:border-teal-300 hover:scale-[1.02] active:scale-95 shadow-sm'
-                                        }`}
+                                                    ? 'bg-slate-50 border-slate-100 opacity-40 cursor-not-allowed'
+                                                    : 'bg-white border-slate-200 hover:bg-slate-50 hover:border-teal-300 hover:scale-[1.02] active:scale-95 shadow-sm'
+                                                }`}
+                                        >
+                                            <div className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all ${selectedPoly === poly.id ? 'bg-teal-500 text-white shadow-lg' : 'bg-teal-50 text-teal-600 group-hover:bg-teal-100'
+                                                }`}>
+                                                {getPolyIcon(poly.icon)}
+                                            </div>
+                                            <span className="font-bold text-sm text-slate-800">{poly.name}</span>
+                                            <span className={`text-xs font-medium ${poly.remaining === 0 ? 'text-red-500' : 'text-teal-600'}`}>
+                                                {poly.remaining === 0 ? 'KUOTA HABIS' : `Sisa: ${poly.remaining}`}
+                                            </span>
+                                        </button>
+                                    ))}
+                                </div>
+
+                                {selectedPoly && (
+                                    <button
+                                        onClick={handleSubmit}
+                                        disabled={loading}
+                                        className="w-full mt-6 bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-400 hover:to-emerald-400 text-white font-bold text-lg py-4 rounded-2xl shadow-xl shadow-teal-500/30 transition-all duration-300 active:scale-95 disabled:opacity-50 flex items-center justify-center gap-3"
                                     >
-                                        <div className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all ${
-                                            selectedPoly === poly.id ? 'bg-teal-500 text-white shadow-lg' : 'bg-teal-50 text-teal-600 group-hover:bg-teal-100'
-                                        }`}>
-                                            {getPolyIcon(poly.icon)}
-                                        </div>
-                                        <span className="font-bold text-sm text-slate-800">{poly.name}</span>
-                                        <span className={`text-xs font-medium ${poly.remaining === 0 ? 'text-red-500' : 'text-teal-600'}`}>
-                                            {poly.remaining === 0 ? 'KUOTA HABIS' : `Sisa: ${poly.remaining}`}
-                                        </span>
+                                        {loading ? (
+                                            <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                                        ) : (
+                                            <>
+                                                <Ticket className="w-6 h-6" />
+                                                AMBIL NOMOR ANTREAN
+                                            </>
+                                        )}
                                     </button>
-                                ))}
+                                )}
+                                <BackButton onClick={() => setStep('payment')} />
                             </div>
+                        )}
 
-                            {selectedPoly && (
-                                <button
-                                    onClick={handleSubmit}
-                                    disabled={loading}
-                                    className="w-full mt-6 bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-400 hover:to-emerald-400 text-white font-bold text-lg py-4 rounded-2xl shadow-xl shadow-teal-500/30 transition-all duration-300 active:scale-95 disabled:opacity-50 flex items-center justify-center gap-3"
-                                >
-                                    {loading ? (
-                                        <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                                    ) : (
-                                        <>
-                                            <Ticket className="w-6 h-6" />
-                                            AMBIL NOMOR ANTREAN
-                                        </>
-                                    )}
-                                </button>
-                            )}
-                            <BackButton onClick={() => setStep('payment')} />
-                        </div>
-                    )}
-
-                    {/* STEP: Ticket Display */}
-                    {step === 'ticket' && ticket && (
-                        <div className="animate-fadeIn">
-                            <div className="bg-white rounded-3xl p-6 md:p-8 text-center shadow-2xl shadow-slate-200/60 border border-slate-200">
-                                <div className="flex items-center justify-center gap-2 mb-4">
-                                    <Ticket className="w-6 h-6 text-teal-600" />
-                                    <h2 className="text-xl font-bold text-slate-800">NOMOR ANTREAN ANDA</h2>
-                                </div>
-
-                                <div className={`rounded-2xl p-6 mb-5 relative overflow-hidden ${ticket.queue_category === 'prioritas'
-                                    ? 'bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200'
-                                    : 'bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-200'
-                                }`}>
-                                    <div className="absolute top-0 right-0 w-32 h-32 rounded-full bg-gradient-to-br from-white/40 to-transparent -translate-y-1/2 translate-x-1/2" />
-                                    {ticket.queue_category === 'prioritas' && (
-                                        <div className="inline-flex items-center gap-1 bg-amber-500 text-white text-xs font-bold px-3 py-1 rounded-full mb-2">
-                                            <Star className="w-3 h-3" /> PRIORITAS
-                                        </div>
-                                    )}
-                                    <div className={`text-5xl md:text-7xl font-black tracking-tight ${ticket.queue_category === 'prioritas' ? 'text-orange-600' : 'text-blue-600'}`}>
-                                        {ticket.queue_number}
+                        {/* STEP: Ticket Display */}
+                        {step === 'ticket' && ticket && (
+                            <div className="animate-fadeIn">
+                                <div className="bg-white rounded-3xl p-6 md:p-8 text-center shadow-2xl shadow-slate-200/60 border border-slate-200">
+                                    <div className="flex items-center justify-center gap-2 mb-4">
+                                        <Ticket className="w-6 h-6 text-teal-600" />
+                                        <h2 className="text-xl font-bold text-slate-800">NOMOR ANTREAN ANDA</h2>
                                     </div>
-                                    {ticket.priority_reason && (
-                                        <div className="text-sm font-semibold text-orange-500 mt-1 capitalize">{ticket.priority_reason}</div>
-                                    )}
+
+                                    <div className={`rounded-2xl p-6 mb-5 relative overflow-hidden ${ticket.queue_category === 'prioritas'
+                                        ? 'bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200'
+                                        : 'bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-200'
+                                        }`}>
+                                        <div className="absolute top-0 right-0 w-32 h-32 rounded-full bg-gradient-to-br from-white/40 to-transparent -translate-y-1/2 translate-x-1/2" />
+                                        {ticket.queue_category === 'prioritas' && (
+                                            <div className="inline-flex items-center gap-1 bg-amber-500 text-white text-xs font-bold px-3 py-1 rounded-full mb-2">
+                                                <Star className="w-3 h-3" /> PRIORITAS
+                                            </div>
+                                        )}
+                                        <div className={`text-5xl md:text-7xl font-black tracking-tight ${ticket.queue_category === 'prioritas' ? 'text-orange-600' : 'text-blue-600'}`}>
+                                            {ticket.queue_number}
+                                        </div>
+                                        {ticket.priority_reason && (
+                                            <div className="text-sm font-semibold text-orange-500 mt-1 capitalize">{ticket.priority_reason}</div>
+                                        )}
+                                    </div>
+
+                                    <div className="text-left space-y-2.5 text-sm">
+                                        <TicketInfoRow icon={<MapPin className="w-4 h-4 text-teal-500" />} label="Poli" value={ticket.poly_name} />
+                                        <TicketInfoRow icon={<CreditCard className="w-4 h-4 text-teal-500" />} label="Bayar" value={ticket.payment_type.toUpperCase()} />
+                                        <TicketInfoRow icon={<Clock className="w-4 h-4 text-teal-500" />} label="Tanggal" value={ticket.date} />
+                                        <TicketInfoRow icon={<Clock className="w-4 h-4 text-teal-500" />} label="Jam" value={ticket.time} />
+                                        <TicketInfoRow icon={<Clock className="w-4 h-4 text-teal-500" />} label="Estimasi" value={`± ${ticket.estimated_minutes} menit`} />
+                                        <TicketInfoRow icon={<Users className="w-4 h-4 text-teal-500" />} label="Sebelum Anda" value={`${ticket.waiting_before} orang`} />
+                                    </div>
+
+                                    <p className="mt-4 text-slate-400 text-sm">Silakan tunggu di ruang tunggu dan perhatikan display antrean.</p>
+
+                                    <button
+                                        onClick={resetAll}
+                                        className="mt-5 bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-500 hover:to-emerald-500 text-white font-semibold py-3 px-6 rounded-xl transition-all active:scale-95 flex items-center gap-2 mx-auto shadow-lg shadow-teal-500/30"
+                                    >
+                                        <RefreshCw className="w-4 h-4" />
+                                        Ambil Nomor Lagi
+                                    </button>
                                 </div>
-
-                                <div className="text-left space-y-2.5 text-sm">
-                                    <TicketInfoRow icon={<MapPin className="w-4 h-4 text-teal-500" />} label="Poli" value={ticket.poly_name} />
-                                    <TicketInfoRow icon={<CreditCard className="w-4 h-4 text-teal-500" />} label="Bayar" value={ticket.payment_type.toUpperCase()} />
-                                    <TicketInfoRow icon={<Clock className="w-4 h-4 text-teal-500" />} label="Tanggal" value={ticket.date} />
-                                    <TicketInfoRow icon={<Clock className="w-4 h-4 text-teal-500" />} label="Jam" value={ticket.time} />
-                                    <TicketInfoRow icon={<Clock className="w-4 h-4 text-teal-500" />} label="Estimasi" value={`± ${ticket.estimated_minutes} menit`} />
-                                    <TicketInfoRow icon={<Users className="w-4 h-4 text-teal-500" />} label="Sebelum Anda" value={`${ticket.waiting_before} orang`} />
-                                </div>
-
-                                <p className="mt-4 text-slate-400 text-sm">Silakan tunggu di ruang tunggu dan perhatikan display antrean.</p>
-
-                                <button
-                                    onClick={resetAll}
-                                    className="mt-5 bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-500 hover:to-emerald-500 text-white font-semibold py-3 px-6 rounded-xl transition-all active:scale-95 flex items-center gap-2 mx-auto shadow-lg shadow-teal-500/30"
-                                >
-                                    <RefreshCw className="w-4 h-4" />
-                                    Ambil Nomor Lagi
-                                </button>
                             </div>
-                        </div>
-                    )}
+                        )}
+                    </div>
                 </div>
 
                 {/* Footer */}
-                <div className="flex items-center gap-2 text-slate-400 text-xs mt-8 relative z-10">
-                    <Phone className="w-3.5 h-3.5" />
-                    <span>Bantuan: (0331) 337772</span>
-                </div>
+                <footer className="py-4 text-center">
+                    <div className="flex items-center justify-center gap-2 text-slate-400 text-xs">
+                        <Phone className="w-3.5 h-3.5" />
+                        <span>Bantuan: (0331) 337772</span>
+                    </div>
+                </footer>
             </div>
 
             <style>{`
